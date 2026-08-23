@@ -1,16 +1,16 @@
 # Real-Time-Sobel-Edge-Detect
 Practice Real Time Sobel Edge Detection FPGA Implementation
 
-# References
+## References
 https://en.wikipedia.org/wiki/Sobel_operator
 Sobel Eddge Detection on FPGA.pdf
 
-# Project Scope & Design Decisions
+## Project Scope & Design Decisions
 -Will be using Grayscale, 8-bit pixel input
 -`\|Gx\| + \|Gy\|` instead of `sqrt(Gx² + Gy²)`  to avoid an expensive sqrt; standard approximation with acceptable accuracy loss
 -one pixel/clock | No stalling; required for real-time video-rate throughput
 
-# Project Outline 
+## Project Outline 
 ```
 ├── rtl/
 │   ├── line_buffer.v          # Row-delay FIFOs
@@ -26,4 +26,4 @@ Sobel Eddge Detection on FPGA.pdf
 
 ## Target Hardware
 
-Developed and tested on **DE1-SOC** using **ModelSim & Intel Quartus**.
+Developed and tested on **DE1-SOC** using **ModelSim** & **Intel Quartus**.
