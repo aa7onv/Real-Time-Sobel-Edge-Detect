@@ -45,3 +45,5 @@ module gray_scale (
 endmodule
 
 // can reduce by removing localparams, or paramertize code later. doing half of each rn cause it made sense while writing.
+// consider o and i valid. grayscale is a combinational operation, but maybe source will have gaps/blank data? 
+// keep it for now so we can sync it with later stages. feels right to just have valid bits/handshake in every pipeline module. 
