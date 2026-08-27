@@ -11,7 +11,7 @@ module line_buffer (
 
     localparam ADDR_WIDTH = $clog2(IMG_WIDTH);
     localparam integer DATA_WIDTH = 8; // 8-> 0-255 grayscale
-    localparam integer IMG_WIDTH = 640; // 640 pixels per row
+    localparam integer IMG_WIDTH = 640; // 640 pixels per row ***Set to 8 for TB***
 
     reg [DATA_WIDTH-1:0] mem [0:IMG_WIDTH-1]; // [one row of storage] 640 pixels with 8 bits each
     reg [ADDR_WIDTH-1:0] col_index;
