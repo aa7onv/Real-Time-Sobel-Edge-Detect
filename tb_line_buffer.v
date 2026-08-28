@@ -23,10 +23,10 @@ module tb_line_buffer;
         .clk (clk),
         .rst_n (rst_n),
         
-        .i_data (i_pixel),
+        .i_pixel (i_pixel),
         .i_valid (i_valid),
-        .o_data (o_pixel)
-        .o_valid ( o_valid),
+        .o_pixel (o_pixel),
+        .o_valid (o_valid)
     );
 
     // ---- clock gen ----
@@ -42,3 +42,58 @@ module tb_line_buffer;
         row1[4]=51; row1[5]=61; row1[6]=71; row1[7]=81;
     end
 
+
+    // ---- testbench stimulus ----
+    initial begin
+       // errors  = 0;
+        rst_n   = 1'b0;
+        i_valid = 1'b0;
+        i_pixel  = {DATA_WIDTH{1'b0}};
+
+        repeat (2) @(posedge clk);
+        rst_n = 1'b1;
+
+        // fill buffer
+        for (i = 0; i < IMG_WIDTH; i = i + 1) begin
+            @(posedge clk);
+            i_valid <= 1'b1;
+            i_pixel  <= row0[i];
+        end
+
+        integer i;
+        // read buffer and fill with new row
+        for (i = 0; i < IMG_WIDTH; i = i + 1) begin
+            @(posedge clk);
+            i_valid <= 1'b1;
+            i_pixel  <= row1[i];
+            #1;
+
+            if (i > 0) begin
+                if (!o_valid || o_pixel !== row0[i-1]) begin
+                    $display("ERROR @%0t: col %0d expected o_pixel=%0d, got %0d (valid=%0b)",
+                              $time, i-1, row0[i-1], o_pixel, o_valid);
+
+                // end else begin
+                //     $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
+                //               $time, i-1, o_pixel);
+                end
+            end
+        end
+
+        // final columns output 
+        @(posedge clk);
+        i_valid <= 1'b0;
+        #1;
+        if (!o_valid || o_pixel !== row0[IMG_WIDTH-1]) begin
+            $display("ERROR @%0t: col %0d expected o_pixel=%0d, got %0d (valid=%0b)",
+                      $time, IMG_WIDTH-1, row0[IMG_WIDTH-1], o_pixel, o_valid);
+
+        // end else begin
+        //     $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
+        //               $time, IMG_WIDTH-1, o_pixel);
+        end
+        $display("Testbench finished");
+        $finish;
+    end
+
+endmodule
