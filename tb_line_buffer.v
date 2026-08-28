@@ -42,7 +42,7 @@ module tb_line_buffer;
         row1[4]=51; row1[5]=61; row1[6]=71; row1[7]=81;
     end
 
-
+    integer i;
     // ---- testbench stimulus ----
     initial begin
        // errors  = 0;
@@ -60,7 +60,7 @@ module tb_line_buffer;
             i_pixel  <= row0[i];
         end
 
-        integer i;
+        
         // read buffer and fill with new row
         for (i = 0; i < IMG_WIDTH; i = i + 1) begin
             @(posedge clk);
