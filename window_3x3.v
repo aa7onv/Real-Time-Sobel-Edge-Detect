@@ -26,7 +26,10 @@ module window_3x3 #(
 wire [DATA_WIDTH-1:0] row1_raw, row2_raw; // pxiel store: 1 row up, 2 rows up. // single pixel handoffs
 wire lb1_valid, lb2_valid;
 
-line_buffer lb_row1 (
+line_buffer #(
+    .DATA_WIDTH (DATA_WIDTH),
+    .IMG_WIDTH (IMG_WIDTH)
+)  lb_row1 (
     .clk (clk),
     .rst_n(rst_n),
     .i_pixel (i_pixel),
@@ -35,7 +38,10 @@ line_buffer lb_row1 (
     .o_valid (lb1_valid)
 );
 
-line_buffer lb_row2 (
+line_buffer #(
+    .DATA_WIDTH (DATA_WIDTH),
+    .IMG_WIDTH (IMG_WIDTH)
+) lb_row2 (
     .clk (clk),
     .rst_n(rst_n),
     .i_pixel (row1_raw),

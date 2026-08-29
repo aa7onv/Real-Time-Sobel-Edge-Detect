@@ -19,7 +19,10 @@ module tb_line_buffer;
     reg [DATA_WIDTH-1:0] row1 [0:IMG_WIDTH-1];
 
     // UUT
-    line_buffer uut (
+    line_buffer #(
+        .DATA_WIDTH (DATA_WIDTH),
+        .IMG_WIDTH  (IMG_WIDTH)
+    ) uut (
         .clk (clk),
         .rst_n (rst_n),
         
