@@ -109,6 +109,7 @@ module tb_window_3x3;
     endtask
 
     // ---- Stimulus + checking ----
+    integer t;
     initial begin
         errors  = 0;
         rst_n   = 1'b0;
@@ -121,7 +122,6 @@ module tb_window_3x3;
         // feed the whole test image, one pixel per cycle, then hold
         // i_valid low for a few extra cycles to let the last few pixels
         // drain through the pipeline far enough to be checked.
-        integer t;
         for (t = 0; t < NUM_PIXELS + FLUSH_CYCLES; t = t + 1) begin
             @(posedge clk);
             if (t < NUM_PIXELS) begin
