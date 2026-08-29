@@ -73,9 +73,9 @@ module tb_line_buffer;
                     $display("ERROR @%0t: col %0d expected o_pixel=%0d, got %0d (valid=%0b)",
                               $time, i-1, row0[i-1], o_pixel, o_valid);
 
-                // end else begin
-                //     $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
-                //               $time, i-1, o_pixel);
+                end else begin
+                    $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
+                              $time, i-1, o_pixel);
                 end
             end
         end
@@ -88,9 +88,9 @@ module tb_line_buffer;
             $display("ERROR @%0t: col %0d expected o_pixel=%0d, got %0d (valid=%0b)",
                       $time, IMG_WIDTH-1, row0[IMG_WIDTH-1], o_pixel, o_valid);
 
-        // end else begin
-        //     $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
-        //               $time, IMG_WIDTH-1, o_pixel);
+        end else begin
+            $display("PASS  @%0t: col %0d o_pixel=%0d as expected",
+                      $time, IMG_WIDTH-1, o_pixel);
         end
         $display("Testbench finished");
         $finish;
