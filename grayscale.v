@@ -1,6 +1,8 @@
 // convert RGB (24 bits) to grayscale (8 bits)
 // weighted average: 0.299*R + 0.587*G + 0.114*B (BT.601 luma)
-module gray_scale (
+module grayscale #(
+    parameter DATA_WIDTH = 8 // 8-> 0-255 grayscale
+)(
     input clk,
     input rst_n,
 
@@ -12,7 +14,6 @@ module gray_scale (
     output reg o_valid,
     output reg [7:0] o_gray
 );
-    localparam integer DATA_WIDTH = 8; // 8-> 0-255 grayscale
 
 // luma weights
     localparam integer weight_red = 77;   // 0.299 * 256, rounded
