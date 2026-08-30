@@ -5,15 +5,15 @@
 
 // latency: window_3x3 (4 cycles) + sobel_conv (2 cycles) + gradient_sum (2 cycles) = 8 cycles from a pixel entering i_data to its Sobel result coming out.
 
-module sobel_top #(
+module sobel_core #(
     parameter integer DATA_WIDTH = 8,
     parameter integer IMG_WIDTH  = 640
 )(
-    input  wire clk,
-    input  wire rst_n,
+    input wire clk,
+    input wire rst_n,
 
-    input  wire [DATA_WIDTH-1:0] i_pixel,
-    input  wire i_valid, // grayscale pixel in
+    input wire [DATA_WIDTH-1:0] i_pixel,
+    input wire i_valid, // grayscale pixel in
 
     output wire [DATA_WIDTH-1:0] o_pixel,
     output wire o_valid // Sobel edge magnitude out
@@ -69,14 +69,14 @@ wire signed [DATA_WIDTH+2:0]  gx, gy;
 gradient_sum #(
     .DATA_WIDTH (DATA_WIDTH)
 ) u_gradient_sum (
-    .clk     (clk),
-    .rst_n   (rst_n),
+    .clk (clk),
+    .rst_n (rst_n),
  
-    .i_gx    (gx),
-    .i_gy    (gy),
+    .i_gx (gx),
+    .i_gy (gy),
     .i_valid (conv_valid),
 
-    .o_mag   (o_pixel),
+    .o_mag (o_pixel),
     .o_valid (o_valid)
 );
  

@@ -71,7 +71,7 @@ module tb_sobel_core;
         in_file = $fopen(INPUT_FILE, "r");
         if (in_file == 0) begin
             $display("ERROR: could not open %s", INPUT_FILE);
-            $finish;
+            $stop;
         end
  
         // Line 1: pull DEPTH out of "DEPTH = <n>;"
@@ -79,7 +79,7 @@ module tb_sobel_core;
         scanned = $sscanf(discard_line, "DEPTH = %d", depth);
         if (scanned != 1) begin
             $display("ERROR: could not parse DEPTH from first .mif line");
-            $finish;
+            $stop;
         end
         $display("Parsed DEPTH = %0d pixels from %s", depth, INPUT_FILE);
  
@@ -151,7 +151,7 @@ module tb_sobel_core;
         out_file = $fopen(OUTPUT_FILE, "w");
         if (out_file == 0) begin
             $display("ERROR: could not open %s for writing", OUTPUT_FILE);
-            $finish;
+            $stop;
         end
  
         $fdisplay(out_file, "DEPTH = %0d;", depth);
@@ -166,7 +166,7 @@ module tb_sobel_core;
         $fclose(out_file);
  
         $display("Wrote result to %s", OUTPUT_FILE);
-        $finish;
+        $stop;
     end
  
 endmodule
