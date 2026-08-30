@@ -29,8 +29,8 @@ pixel stream in -> [ grayscale filter ] -> [ line buffers ] -> [ 3x3 sliding win
 │   ├── line_buffer.v          # Row-delay FIFOs
 │   ├── window_3x3.v           # 3x3 sliding window shift register
 │   ├── sobel_conv.v           # Gx/Gy convolution units
-│   ├── gradient_abssum.v      # |Gx| + |Gy| Sobel Approximation
-│   └── sobel_top.v            # Top-level pipeline integration
+│   ├── gradient_sum.v         # |Gx| + |Gy| Sobel Approximation
+│   └── sobel_core.v           # Top-level pipeline integration
 └── tb/
     ├── tb_line_buffer.v
     ├── tb_window_3x3.v
@@ -39,7 +39,7 @@ pixel stream in -> [ grayscale filter ] -> [ line buffers ] -> [ 3x3 sliding win
 
 ## Key components
 
-Top-level Module (top.v)
+Top-level Module (sobel_core.v)
 - Connects input/output frame buffers with the Sobel filter
 - Manages data flow between pipeline stages
 
@@ -59,4 +59,3 @@ Line Buffer (line_buffer.v)
 Gradient Convolution (sobel_conv.v)
 - Computes partial sums and subtract into signed Gx / Gy
 
-// latency: window_3x3 (4 cycles) + sobel_conv (2 cycles) + abs_sum_saturate (2 cycles) = 8 cycles from a pixel entering i_data to its Sobel result coming out.
