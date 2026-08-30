@@ -12,8 +12,7 @@ Developed and tested on **DE1-SOC** using **ModelSim** & **Intel Quartus**.
 ## Architecture Design
 
 pixel stream in -> [ grayscale filter ] -> [ line buffers ] -> [ 3x3 sliding window ]
--> [ Gx Gy convolution ] -> [ Gradient Approx. ] -> [ Threshold]
--> pixel stream out
+-> [ Gx Gy convolution ] -> [ Gradient Approx. ] -> pixel stream out
 
 ## Project Scope / Overview
 
@@ -21,19 +20,20 @@ pixel stream in -> [ grayscale filter ] -> [ line buffers ] -> [ 3x3 sliding win
 -Will be using Grayscale, 8-bit pixel input
 -`\|Gx\| + \|Gy\|` instead of `sqrt(Gx² + Gy²)`  to avoid an expensive sqrt; standard approximation with acceptable accuracy loss
 -one pixel/clock | No stalling; required for real-time video-rate throughput
+- no thresholding. Would lose visual detail of how strong each edge is.
 
 ## Repository Outline 
 ```
 ├── rtl/
 │   ├── grayscale.v            # weighted avg grayscale                        
 │   ├── line_buffer.v          # Row-delay FIFOs
-│   ├── window_gen.v           # 3x3 sliding window shift register
+│   ├── window_3x3.v           # 3x3 sliding window shift register
 │   ├── sobel_conv.v           # Gx/Gy convolution units
-│   ├── gradient_mag.v         # Magnitude approximation + threshold
+│   ├── gradient_abssum.v      # |Gx| + |Gy| Sobel Approximation
 │   └── sobel_top.v            # Top-level pipeline integration
 └── tb/
     ├── tb_line_buffer.v
-    ├── tb_window_gen.v
+    ├── tb_window_3x3.v
     └── tb_sobel_top.v
 ```
 
@@ -56,3 +56,7 @@ Line Buffer (line_buffer.v)
 - Builds 3x3 pixel neighborhood from a single streaming pixel input
 - Chains 2 line_buffer instances (vertical alignment) with column shift registers (horizontal alignment).
 
+Gradient Convolution (sobel_conv.v)
+- Computes partial sums and subtract into signed Gx / Gy
+
+// latency: window_3x3 (4 cycles) + sobel_conv (2 cycles) + abs_sum_saturate (2 cycles) = 8 cycles from a pixel entering i_data to its Sobel result coming out.
