@@ -40,8 +40,9 @@ pixel stream in -> [ grayscale filter ] -> [ line buffers ] -> [ 3x3 sliding win
 ## Key components
 
 Top-level Module (sobel_core.v)
-- Connects input/output frame buffers with the Sobel filter
-- Manages data flow between pipeline stages
+- Complete input/output math pipeline
+- Connects data flow between the 3 pipeline stages 
+- Outputs edge detected file when converted back to jpg
 
 Grayscale filter (grayscale.v)
 - Converts RGB (24 bits) to grayscale (8 bits)
@@ -58,4 +59,13 @@ Line Buffer (line_buffer.v)
 
 Gradient Convolution (sobel_conv.v)
 - Computes partial sums and subtract into signed Gx / Gy
+
+TODO:
+Phase 1 - DONE
+-Core pixel stream datapath pipeline works.can see edge output on static images, simulation only
+Phase 2 - WORKING
+-Static image on real DE1-SoC hardware.
+
+Phase 4 - timing
+Phase 5- Live video
 
