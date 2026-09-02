@@ -7,7 +7,7 @@
 
 module sobel_core #(
     parameter integer DATA_WIDTH = 8,
-    parameter integer IMG_WIDTH  = 640
+    parameter integer IMG_WIDTH = 640
 )(
     input wire clk,
     input wire rst_n,
@@ -28,10 +28,10 @@ wire [DATA_WIDTH-1:0] win_p20, win_p21, win_p22;
 
 window_3x3 #(
     .DATA_WIDTH (DATA_WIDTH),
-    .IMG_WIDTH  (IMG_WIDTH)
+    .IMG_WIDTH (IMG_WIDTH)
 ) u_window_3x3 (
-    .clk     (clk),
-    .rst_n   (rst_n),
+    .clk (clk),
+    .rst_n (rst_n),
     .i_pixel (i_pixel),
     .i_valid (i_valid),
 
@@ -45,7 +45,7 @@ window_3x3 #(
 // convolve window against Gx/Gy kernal.
 
 wire conv_valid; 
-wire signed [DATA_WIDTH+2:0]  gx, gy;
+wire signed [DATA_WIDTH+2:0] gx, gy;
 
     sobel_conv #(
         .DATA_WIDTH (DATA_WIDTH)

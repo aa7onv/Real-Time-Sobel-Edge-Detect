@@ -1,7 +1,7 @@
 // stand in for live video. feed pixels into sobel pipeline for hardware bringup test. 
 //holds one static 320×240 RGB image entirely in on-chip memory, and streams pixels out,one word per address ,similar to cam feed
 
-// Single-port synchronous ROM 
+// single-port synchronous ROM 
 // Inferred on-chip memory (M10K), initialized at configuration time via
 // $readmemh from a plain hex text file 
 //
