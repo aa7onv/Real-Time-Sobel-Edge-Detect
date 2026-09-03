@@ -17,7 +17,7 @@ module image_rom #(
     parameter IMG_HEIGHT = 240,
     parameter DATA_WIDTH = 24,
     parameter ADDR_WIDTH = 17,                 // ceil(log2(320*240)) = 17
-    parameter INIT_FILE  = "image.hex"
+    parameter INIT_FILE  = "../img/image.hex"
 )(
     input  wire                    clk,
     input  wire [ADDR_WIDTH-1:0]   addr,

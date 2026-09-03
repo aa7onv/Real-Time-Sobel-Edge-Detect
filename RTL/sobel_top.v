@@ -4,7 +4,7 @@
 
 module sobel_top (
     input wire CLOCK_50,
-    input wire RESET_N; // pushbutton
+    input wire RESET_N, // pushbutton
 
     output wire [7:0] VGA_R,
     output wire [7:0] VGA_G,

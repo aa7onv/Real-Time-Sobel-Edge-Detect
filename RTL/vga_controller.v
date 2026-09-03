@@ -121,3 +121,4 @@ always @(posedge clk or negedge rst_n) begin
         y <= v_count;
     end
 end
+endmodule
