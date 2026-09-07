@@ -1,6 +1,6 @@
-// streams a static 320x240 RGB test image (stored on-chip)
+// streams animated test pattern (live compute, not stored)
 // // Pipeline:
-//   image_rom (RGB) -> grayscale.v -> sobel_core.v -> VGA output
+//   pattern_gen (RGB) -> grayscale.v -> sobel_core.v -> VGA output
 
 module sobel_top (
     input wire CLOCK_50,
@@ -29,7 +29,7 @@ pll_vga u_pll (
     .locked (pll_locked)
 );
 
-    wire rst_n = RESET_N & pll_locked;
+wire rst_n = RESET_N & pll_locked;
 
 // ============ VGA timing ============
 
@@ -46,40 +46,23 @@ vga_controller u_vga (
     .y (vga_y)
 );
 
-// static test image  320x240 RGB ROM
-localparam IMG_WIDTH  = 320;
-localparam IMG_HEIGHT = 240;
-localparam ADDR_WIDTH = 17;
+// Synthesized test pattern, full  640x480 @60Hz
+localparam IMG_WIDTH  = 640;
+localparam IMG_HEIGHT = 480;
 
-wire [ADDR_WIDTH-1:0] rom_addr_raw;
-wire [ADDR_WIDTH-1:0] rom_addr = video_on ? rom_addr_raw : {ADDR_WIDTH{1'b0}};
+wire [23:0] rom_pixel; // {R[7:0], G[7:0], B[7:0]} -- kept name for minimal downstream diff
 
-rom_addr_gen #(
-    .IMG_WIDTH (IMG_WIDTH),
-    .ADDR_WIDTH (ADDR_WIDTH)
-) u_addr_gen (
-    .vga_x (vga_x),
-    .vga_y (vga_y),
-    .rom_addr (rom_addr_raw)
-);
-
-wire [23:0] rom_pixel; // {R[7:0], G[7:0], B[7:0]}
-
- 
-image_rom #(
-    .IMG_WIDTH (IMG_WIDTH),
-    .IMG_HEIGHT (IMG_HEIGHT),
-    .DATA_WIDTH (24),
-    .ADDR_WIDTH (ADDR_WIDTH),
-    .INIT_FILE ("image.hex")
-) u_image_rom (
-    .clk (pixel_clk),
-    .addr(rom_addr),
+pattern_gen u_pattern_gen (
+    .clk      (pixel_clk),
+    .rst_n    (rst_n),
+    .vsync    (vsync),
+    .x        (vga_x),
+    .y        (vga_y),
     .data_out (rom_pixel)
 );
 
 // ++++++++++++++++++ Delay chain 1 +++++++++++++++++++
-// video_on delayed 1 cycle to align with image_rom registered read output
+// video_on delayed 1 cycle to align with pattern_gen registered output
 
 wire video_on_d1;
 

@@ -63,9 +63,12 @@ Gradient Convolution (sobel_conv.v)
 TODO:
 Phase 1 - DONE
 -Core pixel stream datapath pipeline works.can see edge output on static images, simulation only
-Phase 2 - WORKING
+Phase 2 - DONE
 -Static image on real DE1-SoC hardware.
 
-Phase 4 - timing
-Phase 5- Live video
+Phase 4 - Needs testing
+- Video timing / sync delay
+Phase 5- Working
+- Live video / Changing source
+- replace image_rom + rom_addr_gen with a new module that computes a pixel value from (x, y, frame_time) instead of looking one up from stored memory.
 

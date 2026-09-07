@@ -1,3 +1,5 @@
+// Not needed for live: no address translation, since there's no memory to address)
+
 // vga controller uses 640×480 coordinates. image rom only holds 320×240 image. 
 // rom_addr_gen translates the 2 by halving each vga coord so we get valid pixel addr
 
@@ -10,6 +12,7 @@
 
 // addr = rom_y * 320 + rom_x, computed via shift-add
 // (320 = 256 + 64 = 2^8 + 2^6) instead of a real multiplier.
+
 
 module rom_addr_gen #(
     parameter IMG_WIDTH = 320,
